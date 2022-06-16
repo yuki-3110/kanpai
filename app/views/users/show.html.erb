@@ -1,4 +1,21 @@
+<div class="container text-center"></div>
 
+  <div class="card card-body mt-5">
+    <%= if @user.image? %>
+      <%= image_tag @user.image, size: '100x100'%>
+    <% else %>
+      <div class="icon align-center">
+        <%= image_tag 'icon.png', size: '100x100'%>
+      </div>
+    <% end %>
 
-<h6><%=user.name %>のページ</h6>
-<h6>ご登録のメールアドレス<%= user.email %></h6>
+    <br>
+    <h4><%=user.name %>のページ</h4>
+    <h6>ご登録のメールアドレス<%= user.email %></h6>
+  </div>
+
+  <div class="picture index mt-5">
+    <%= link_to '投稿一覧を見る, picture_path'%>
+  </div>
+
+</div>
