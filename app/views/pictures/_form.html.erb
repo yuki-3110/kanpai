@@ -1,7 +1,7 @@
-<%= form_with(model: picture, local: true) do |form| %>
+<%= form_with(model: picture, local: true ,url: choose_new_or_edit) do |form| %>
   <% if picture.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(picture.errors.count, "error") %> prohibited this picture from being saved:</h2>
+      <h2><%= pluralize(picture.errors.count, "error") %> 件のエラーがあります。</h2>
 
       <ul>
         <% picture.errors.full_messages.each do |message| %>
@@ -12,31 +12,28 @@
   <% end %>
 
   <div class="field">
-    <%= form.label :user_name %>
-    <%= form.text_field :user_name %>
+    <%= form.label :お気に入りジャンル %>
+    <%= form.select :genre, ['ビール', 'ウイスキー', '焼酎', '日本酒','ワイン','ノンアル'],{include_blank: '---'} %>
   </div>
 
   <div class="field">
-    <%= form.label :genre %>
-    <%= form.text_field :genre %>
+    <%= form.label :内容 %>
+    <%= form.text_area :content, class: 'form-control' %>
   </div>
 
-  <div class="field">
-    <%= form.label :content %>
-    <%= form.text_area :content %>
-  </div>
-
+  <br>
   <div class="field">
     <%= form.label :image %>
-    <%= form.text_area :image %>
+    <%= image_tag(picture.image.url) if picture.image && picture.image.url %>
+    <%= form.file_field :image %>
+    <%= form.hidden_field :image_cache, class: 'form-control' %>
   </div>
 
-  <div class="field">
-    <%= form.label :user_id %>
-    <%= form.text_field :user_id %>
+  <div class="actions mt-5">
+    <%= form.submit "投稿する", class: 'btn btn-block btn-dark btn-sm' %>
   </div>
 
-  <div class="actions">
-    <%= form.submit %>
-  </div>
 <% end %>
+
+<br>
+<%= link_to "投稿一覧に戻る", pictures_path %>

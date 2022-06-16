@@ -1,35 +1,30 @@
-<p id="notice"><%= notice %></p>
+<div class="container">
 
-<h1>Pictures</h1>
+  <% @pictures.each do |picture| %>
+    <div class="card mt-5">
+      <div class="card-body" >
+        <%= picture.user.name %> <%= picture.category %>
+        <br>
+        <%= picture.content %>
+        <br>
+        <%= image_tag picture.image.url if picture.image? %>
+      </div>
+      <div class="card-footer text-right" >
+        <%= link_to '詳細', picture_path(picture.id) %>
+        <% if picture.user == current_user %>
+          <%= link_to '編集', edit_picture_path(picture.id) %>
+          <%= link_to '削除', picture_path(picture.id), method: :delete, data: { confirm: '本当に削除しますか？' } %>
+        <% else %>
+          <td></td>
+          <td></td>
+        <% end %>
+        <%= picture.updated_at.strftime("%Y-%m-%d") %>
+      </div>
+    </div>
+  <% end %>
 
-<table>
-  <thead>
-    <tr>
-      <th>User name</th>
-      <th>Genre</th>
-      <th>Content</th>
-      <th>Image</th>
-      <th>User</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+  <br>
+  <%= link_to '新規投稿', new_picture_path %>
+  <%= link_to 'マイページ', user_path(current_user.id) %>
 
-  <tbody>
-    <% @pictures.each do |picture| %>
-      <tr>
-        <td><%= picture.user_name %></td>
-        <td><%= picture.genre %></td>
-        <td><%= picture.content %></td>
-        <td><%= picture.image %></td>
-        <td><%= picture.user_id %></td>
-        <td><%= link_to 'Show', picture %></td>
-        <td><%= link_to 'Edit', edit_picture_path(picture) %></td>
-        <td><%= link_to 'Destroy', picture, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Picture', new_picture_path %>
+</div>

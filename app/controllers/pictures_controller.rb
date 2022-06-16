@@ -1,6 +1,6 @@
 class PicturesController < ApplicationController
-  before_action :set_picture, only: %i[ show edit update destroy ]
-
+  before_action :set_picture, only: %i(show edit update destroy) 
+  before_action :ensure_correct_user, only: %i(edit destroy)
   # GET /pictures or /pictures.json
   def index
     @pictures = Picture.all
@@ -12,7 +12,11 @@ class PicturesController < ApplicationController
 
   # GET /pictures/new
   def new
-    @picture = Picture.new
+    if params[:back]
+      @picture = Picture.new(picture_params)
+    else
+      @picture = Picture.new
+    end
   end
 
   # GET /pictures/1/edit
@@ -51,7 +55,6 @@ class PicturesController < ApplicationController
   # DELETE /pictures/1 or /pictures/1.json
   def destroy
     @picture.destroy
-
     respond_to do |format|
       format.html { redirect_to pictures_url, notice: "Picture was successfully destroyed." }
       format.json { head :no_content }
@@ -60,12 +63,20 @@ class PicturesController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
-    def set_picture
-      @picture = Picture.find(params[:id])
-    end
+  def set_picture
+    @picture = Picture.find(params[:id])
+  end
 
-    # Only allow a list of trusted parameters through.
-    def picture_params
-      params.require(:picture).permit(:user_name, :genre, :content, :image, :user_id)
+  # Only allow a list of trusted parameters through.
+  def picture_params
+    params.require(:picture).permit(:user_name, :genre, :content, :image, :image_cache, :user_id)
+  end
+
+  def ensure_correct_user
+    @picture = Picture.find(params[:id])
+    unless @picture.user == current_user
+      redirect_to pictures_path
     end
+  end
+
 end
