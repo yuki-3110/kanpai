@@ -21,17 +21,18 @@ class PicturesController < ApplicationController
 
   # POST /pictures or /pictures.json
   def create
-    @picture = Picture.new(picture_params)
-
-    respond_to do |format|
-      if @picture.save
-        format.html { redirect_to picture_url(@picture), notice: "Picture was successfully created." }
-        format.json { render :show, status: :created, location: @picture }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @picture.errors, status: :unprocessable_entity }
-      end
+    @picture = current_user.pictures.build(picture_params)
+    render :new and return if params[:back]
+    if @picture.save
+      redirect_to pictures_path, notice: "ブログを作成しました！"
+    else
+      render :new
     end
+  end
+
+  def confirm
+    @picture = current_user.pictures.build(picture_params)
+    render :new if @picture.invalid?
   end
 
   # PATCH/PUT /pictures/1 or /pictures/1.json
