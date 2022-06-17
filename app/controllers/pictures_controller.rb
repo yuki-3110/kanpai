@@ -1,6 +1,6 @@
 class PicturesController < ApplicationController
   before_action :set_picture, only: %i(show edit update destroy) 
-  before_action :ensure_correct_user, only: %i(edit destroy)
+
   # GET /pictures or /pictures.json
   def index
     @pictures = Picture.all
@@ -28,7 +28,7 @@ class PicturesController < ApplicationController
     @picture = current_user.pictures.build(picture_params)
     render :new and return if params[:back]
     if @picture.save
-      redirect_to pictures_path, notice: "ブログを作成しました！"
+      redirect_to pictures_path, notice: " 投稿しました！"
     else
       render :new
     end
@@ -43,8 +43,8 @@ class PicturesController < ApplicationController
   def update
     respond_to do |format|
       if @picture.update(picture_params)
-        format.html { redirect_to picture_url(@picture), notice: "Picture was successfully updated." }
-        format.json { render :show, status: :ok, location: @picture }
+          format.html { redirect_to picture_url(@picture), notice: "投稿内容を編集しました！" }
+          format.json { render :show, status: :ok, location: @picture }
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @picture.errors, status: :unprocessable_entity }
@@ -56,7 +56,7 @@ class PicturesController < ApplicationController
   def destroy
     @picture.destroy
     respond_to do |format|
-      format.html { redirect_to pictures_url, notice: "Picture was successfully destroyed." }
+      format.html { redirect_to pictures_url, notice: "投稿を削除しました！" }
       format.json { head :no_content }
     end
   end
@@ -70,13 +70,6 @@ class PicturesController < ApplicationController
   # Only allow a list of trusted parameters through.
   def picture_params
     params.require(:picture).permit(:user_name, :genre, :content, :image, :image_cache, :user_id)
-  end
-
-  def ensure_correct_user
-    @picture = Picture.find(params[:id])
-    unless @picture.user == current_user
-      redirect_to pictures_path
-    end
   end
 
 end

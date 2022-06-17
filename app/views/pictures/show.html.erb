@@ -1,25 +1,11 @@
 <div class="container">
 
   <div class="card card-body mt-5">
-    <p>
-      <strong>ジャンル</strong>
-      <%= @picture.genre %>
-    </p>
-
-    <p>
-      <strong>内容</strong>
-      <%= @picture.content %>
-    </p>
-
-    <p>
-      <strong>画像</strong>
-      <%= @picture.image %>
-    </p>
-
-    <p>
-      <strong>ユーザー名</strong>
-      <%= @picture.user.name %>
-    </p>
+    <%= @picture.genre %>
+    <br>
+    <%= @picture.content %>
+    <br>
+    <%= image_tag @picture.image.url if @picture.image? %>
   </div>
 
   <br>
@@ -30,7 +16,7 @@
   <% else %>
     <td></td>
   <% end %>
-  
+
 </div>
 
 
