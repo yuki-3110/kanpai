@@ -3,7 +3,7 @@ class ImageUploader < CarrierWave::Uploader::Base
 
   storage :file
 
-  process resize_to_fill:[500,200]
+  process resize_to_fill:[400,400]
 
   def store_dir
     "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
