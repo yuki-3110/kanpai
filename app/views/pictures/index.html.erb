@@ -38,5 +38,5 @@
   <br>
   <%= link_to '新規投稿', new_picture_path %>
   <%= link_to 'マイページ', user_path(current_user.id) %>
-
+  <%= link_to "ログアウト", session_path(current_user.id), method: :delete %>
 </div>

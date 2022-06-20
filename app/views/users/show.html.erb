@@ -23,6 +23,8 @@
     <%= link_to 'プロフィールを編集する', edit_user_path(@user) %>
     <br>
     <%= link_to 'みんなの投稿を見る', pictures_path %>
+    <br>
+    <%= link_to "ログアウト", session_path(current_user.id), method: :delete %>
   </div>
 
 </div>
