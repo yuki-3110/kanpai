@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   skip_before_action :login_required, only: %i(new create)
   before_action :set_user,  only: %i(show edit update)
+  before_action :user_check, only: %i(edit update)
 
   def new
     @user = User.new
@@ -37,6 +38,12 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:name, :email, :password, :password_confirmation, :introduce, :image, :image_cache)
+  end
+
+  def user_check
+    if current_user != @user
+      redirect_to user_path(@user), notice: "他人のプロフィールの更新はできません"
+    end
   end
 
 end

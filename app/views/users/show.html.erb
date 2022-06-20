@@ -18,9 +18,13 @@
   </div>
 
   <div class="picture index mt-5">
-    <%= link_to 'お気に入り投稿一覧', favorites_path %>
+    <% if @user == current_user %>
+      <%= link_to 'プロフィールを編集する', edit_user_path(@user) %>
+    <% else %>
+      <td></td>
+    <% end %>
     <br>
-    <%= link_to 'プロフィールを編集する', edit_user_path(@user) %>
+    <%= link_to 'お気に入り投稿一覧', favorites_path %>    
     <br>
     <%= link_to 'みんなの投稿を見る', pictures_path %>
     <br>
